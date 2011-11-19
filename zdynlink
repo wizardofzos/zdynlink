@@ -1,0 +1,47 @@
+#!/bin/sh
+#
+## symrlink - create a symbolic link using the $SYSSYMA functionality
+#
+usage(){
+
+        echo ""
+        echo "zdynlink - create symbolic links so files will get a jobname, date and timestamp in their filename"
+        echo "Usage: zdynlink <path/to/file>"
+        echo ""
+        echo ""
+}
+
+
+
+if [ -z $1 ]; then
+        usage
+        exit 1
+fi
+
+# Check if it's absolute or relative
+
+if [ "${1#/}" = $1 ]; then
+        # It' a relative link. so we work from pwd
+        file=`pwd`/$1
+else
+        file=$1
+fi
+
+
+# If file exists we will move it to <file>.old
+
+if [ -f $file ]; then
+        echo "File exists. Moving to $1.old"
+        mv $file $file.old
+fi
+
+# create the ls command arguments
+
+dsign="$"
+target="'${dsign}SYSSYMA$file-&JOBNAME..&LYYMMDD..&LHHMMSS.'"
+source=$file
+
+command="ln -s $target $source"
+`$command`
+echo "Done"
+
