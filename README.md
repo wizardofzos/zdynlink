@@ -34,7 +34,7 @@ done the following:
 Making your /tmp look like this :
 
     IBMUSER:/u/ibmuser: >ls -la /tmp
-    lrwxrwxrwx   1 OMVSKERN SYS1          12 Jun 25  2010 /tmp -> $SYSNAME/tmp
+    lrwxrwxrwx   1 OMVSKERN SYS1          12 Jun 25  2010 /tmp -> $SYSNAME/tmp/somefile-&JOBNAME.-&LYYMMDD.-&LHHMMSS.
 
 Now what happens when you write to /tmp/somefile ?
 
