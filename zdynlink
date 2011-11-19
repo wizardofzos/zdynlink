@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 ## symrlink - create a symbolic link using the $SYSSYMA functionality
-#
+#             version 0.1
 
 USAGE="Usage: `basename $0` filename"
 OPTS="&JOBNAME.-&LYYMMDD.-&LHHMMSS."
