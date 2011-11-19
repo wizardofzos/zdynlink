@@ -2,20 +2,14 @@
 #
 ## symrlink - create a symbolic link using the $SYSSYMA functionality
 #
-usage(){
 
-        echo ""
-        echo "zdynlink - create symbolic links so files will get a jobname, date and timestamp in their filename"
-        echo "Usage: zdynlink <path/to/file>"
-        echo ""
-        echo ""
-}
+USAGE="Usage: `basename $0` filename"
+OPTS="&JOBNAME.-&LYYMMDD.-&LHHMMSS."
 
 
-
-if [ -z $1 ]; then
-        usage
-        exit 1
+if [ $# -eq 0 ]; then
+    echo $USAGE >&2
+    exit 1
 fi
 
 # Check if it's absolute or relative
@@ -38,10 +32,9 @@ fi
 # create the ls command arguments
 
 dsign="$"
-target="'${dsign}SYSSYMA$file-&JOBNAME..&LYYMMDD..&LHHMMSS.'"
+target="${dsign}SYSSYMA$file-$OPTS"
 source=$file
 
 command="ln -s $target $source"
 `$command`
-echo "Done"
-
+echo "Done. Any writes to $1 will result in a file $1$OPTS"
