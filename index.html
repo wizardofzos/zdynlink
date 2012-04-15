@@ -1,0 +1,118 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>zDynLink by wizardofzos</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/wizardofzos/zdynlink">Fork On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/wizardofzos/zdynlink/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/wizardofzos/zdynlink/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>zDynLink</h1>
+          <p>A symbolic link generator for the z/OS </p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/wizardofzos">wizardofzos</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></span>
+        </div>
+
+        <h2>zdynlink</h2>
+
+<p>More and more applications on z/OS are doing stuff inside of Unix System Services.
+WebSphere being one of them.</p>
+
+<p>Loads of these applications are writing files there too.</p>
+
+<p>Suppose you have a job like the following:</p>
+
+<pre><code>//SOMEJOB    JOB  (ACCTCODE),
+//                CLASS=J,
+//                MSGCLASS=X
+//*
+//*   My Example Job
+//*
+//STEP01     EXEC PGM=IEBGENER
+//SYSPRINT   DD   SYSOUT=*
+//SYSUT1     DD   DSN=SOMEFILE,DISP=SHR
+//SYSUT2     DD   PATH='/tmp/somefile'
+//SYSIN      DD   DUMMY
+</code></pre>
+
+<p>This would then copy your 'SOMEFILE' to /tmp/somefile.
+But what if you wanted to have this file within the USS environment be 
+unique every time you ran the job?</p>
+
+<p>Come on in zdynlink (thanks to Bas for the name).</p>
+
+<p>If, within your USS environment you would have had the <em>zdynlink</em> command your could have
+done the following:</p>
+
+<pre><code>IBMUSER:/u/ibmuser: &gt;zdynlink /tmp/somefile
+Done. Any writes to /tmp/somefile will result in a file /tmp/somefile&amp;JOBNAME.-&amp;LYYMMDD.-&amp;LHHMMSS.
+</code></pre>
+
+<p>Making your /tmp look like this :</p>
+
+<pre><code>IBMUSER:/u/ibmuser: &gt;ls -la /tmp
+lrwxrwxrwx   1 OMVSKERN SYS1          12 Jun 25  2010 /tmp -&gt; $SYSNAME/tmp/somefile-&amp;JOBNAME.-&amp;LYYMMDD.-&amp;LHHMMSS.
+</code></pre>
+
+<p>Now what happens when you write to /tmp/somefile ?</p>
+
+<pre><code>IBMUSER:/u/ibmuser: &gt;echo "Just a test for github post" &gt; /tmp/somefile
+IBMUSER:/u/ibmuser: &gt;ls -la /tmp/
+total 48
+drwxrwxrwt   2 OMVSKERN SYS1        8192 Nov 19 14:23 .
+drwxr-xr-x   6 OMVSKERN SYS1        8192 Jun 25  2010 ..
+-rw-------   1 100000   SYS1          27 Nov 13 14:14 .sh_history
+lrwxrwxrwx   1 OMVSKERN SYS1          51 Nov 19 14:21 somefile -&gt; $SYSSYMA/tmp/somefile-&amp;JOBNAME.-&amp;LYYMMDD.-&amp;LHHMMSS.
+-rw-r--r--   1 OMVSKERN SYS1          28 Nov 19 14:23 somefile-IBMUSER7-111119-142316
+</code></pre>
+
+<p>See! You get a nice filename with JOBNAME, DATE and TIMESTAMP in it!</p>
+
+<p>It's very handy on a lot of stuff. You might want to use it on "applyPTF.out" to name just one :)</p>
+
+<p>Future version of zdynlink will enable you to select what 'SYSTEM SYMBOLS' you want to have in your symbolic link.</p>
+
+<p>For now, enjoy version 0.1 and let me know what you think!</p>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-30906615-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
